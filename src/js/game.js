@@ -1,7 +1,10 @@
 (function() {
   'use strict';
 
-  function Game() {}
+  /*var Bird = require('prefabs/bird');*/
+
+  function Game() {
+  }
 
   Game.prototype = {
     create: function() {
@@ -11,6 +14,12 @@
 
       // add the background sprite
       this.background = this.game.add.sprite(0, 0, 'background');
+
+      // Create a new bird object
+      this.bird = new Bird(this.game.width, 100, this.game.height / 2);
+      console.log('where ar e u?');
+      // and add it to the game
+      this.game.add.existing(this.bird);
     },
     update: function() {}
   };

@@ -6,6 +6,7 @@ var gulp = require('gulp')
   , minifycss = require('gulp-minify-css')
   , minifyhtml = require('gulp-minify-html')
   , processhtml = require('gulp-processhtml')
+  , browserify = require('gulp-browserify')
   , jshint = require('gulp-jshint')
   , uglify = require('gulp-uglify')
   , connect = require('gulp-connect')
@@ -70,6 +71,16 @@ gulp.task('minifyhtml', ['clean'], function() {
     .on('error', gutil.log);
 });
 
+gulp.task('browserify-client', function() {
+  return gulp.src(paths.js)
+    .pipe(browserify({
+      insertGlobals: true
+    }))
+    .pipe(rename('bundle.js'))
+    .pipe(gulp.dest(paths.dist))
+    .pipe(gulp.dest('src/js'));
+});
+
 gulp.task('lint', function() {
   gulp.src(paths.js)
     .pipe(jshint('.jshintrc'))
@@ -97,4 +108,4 @@ gulp.task('watch', function () {
 });
 
 gulp.task('default', ['connect', 'watch']);
-gulp.task('build', ['copy-assets', 'copy-vendor', 'uglify', 'minifycss', 'processhtml', 'minifyhtml']);
+gulp.task('build', ['copy-assets', 'copy-vendor', 'uglify', 'minifycss', 'browserify-client', 'processhtml', 'minifyhtml']);
